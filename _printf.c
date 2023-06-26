@@ -2,50 +2,83 @@
 
 void print_buffer(char buffer[], int *buff_ind);
 
-/**
- * _printf - Printf function
- * @format: format.
- * Return: Printed chars.
- */
 int _printf(const char *format, ...)
 {
-    int i, printed_chars = 0;
-    int buff_ind = 0;
-    va_list list;
-    char buffer[1024];
-
     if (format == NULL)
-        return (-1);
+        return -1;
 
-    va_start(list, format);
+    va_list args;
+    va_start(args, format);
 
-    for (i = 0; format && format[i] != '\0'; i++)
+    char buffer[BUFF_SIZE];
+    int buff_ind = 0;
+    int printed_chars = 0;
+
+    for (int i = 0; format[i] != '\0'; i++)
     {
         if (format[i] != '%')
         {
             buffer[buff_ind++] = format[i];
-            if (buff_ind == BUFF_SIZE)
-                print_buffer(buffer, &buff_ind);
-            printed_chars++;
+            if (buff_ind == BUFF_SIZE - 1)
+            {
+                buffer[buff_ind] = '\0';
+                write(1, buffer, buff_ind);
+                printed_chars += buff_ind;
+                buff_ind = 0;
+            }
+        }
+        else
+        {
+            buffer[buff_ind] = '\0';
+            write(1, buffer, buff_ind);
+            printed_chars += buff_ind;
+            buff_ind = 0;
+
+            i++; // Skip '%'
+
+            // Process format specifier
+            switch (format[i])
+            {
+                case 'c':
+                    {
+                        int c = va_arg(args, int);
+                        write(1, &c, 1);
+                        printed_chars++;
+                        break;
+                    }
+                case 's':
+                    {
+                        char *str = va_arg(args, char *);
+                        if (str == NULL)
+                            str = "(null)";
+                        int len = strlen(str);
+                        write(1, str, len);
+                        printed_chars += len;
+                        break;
+                    }
+                // Handle other format specifiers
+                // ...
+
+                default:
+                    write(1, &format[i], 1);
+                    printed_chars++;
+                    break;
+            }
         }
     }
 
-    print_buffer(buffer, &buff_ind);
+    buffer[buff_ind] = '\0';
+    write(1, buffer, buff_ind);
+    printed_chars += buff_ind;
 
-    va_end(list);
+    va_end(args);
 
-    return (printed_chars);
+    return printed_chars;
 }
 
-/**
- * print_buffer - Prints the contents of the buffer if it exists
- * @buffer: Array of chars
- * @buff_ind: Index at which to add next char, represents the length.
- */
 void print_buffer(char buffer[], int *buff_ind)
 {
-    if (*buff_ind > 0)
-        write(1, &buffer[0], *buff_ind);
-
+    buffer[*buff_ind] = '\0';
+    write(1, buffer, *buff_ind);
     *buff_ind = 0;
 }
