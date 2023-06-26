@@ -9,8 +9,8 @@ int _printf(const char *format, ...)
 	int printed_chars = 0;
 	va_list args;
 	int c;
-	char *str;
 	int len;
+	char *str;
 
 	if (format == NULL)
 		return (-1);
