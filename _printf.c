@@ -6,10 +6,10 @@ void print_buffer(char buffer[], int *buff_ind);
 int _printf(const char *format, ...)
 {
 	char buffer[BUFF_SIZE];
-	char num_str[12];
+	/*char num_str[12];*/
 	int buff_ind = 0;
 	int printed_chars = 0;
-	int len, c, i, num;
+	int len, c, i/*, num*/;
 	char *str;
 	va_list args;
 
