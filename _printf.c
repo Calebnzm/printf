@@ -10,6 +10,7 @@ int _printf(const char *format, ...)
 	va_list args;
 	int c;
 	char *str;
+	int len;
 
 	if (format == NULL)
 		return (-1);
@@ -43,7 +44,7 @@ int _printf(const char *format, ...)
 				str = va_arg(args, char *);
 				if (str == NULL)
 					str = "(null)";
-				int len = strlen(str);
+				len = strlen(str);
 				write(1, str, len);
 				printed_chars += len;
 				break;
