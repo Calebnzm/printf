@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <string.h>
-#include <limits.h>
-
+#include "main.h"
 /**
 * _printf - writes to stdout
 * @format: the fomat of whatever is to be written
