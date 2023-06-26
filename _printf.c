@@ -1,7 +1,6 @@
 #include "main.h"
 
 void print_buffer(char buffer[], int *buff_ind);
-
 int _printf(const char *format, ...)
 {
 	char buffer[BUFF_SIZE];
@@ -16,7 +15,6 @@ int _printf(const char *format, ...)
 		return (-1);
 
 	va_start(args, format);
-
 	while (*format != '\0')
 	{
 		if (*format != '%')
@@ -32,7 +30,7 @@ int _printf(const char *format, ...)
 		{
 			print_buffer(buffer, &buff_ind);
 			format++; /* Skip '%' */
-
+			
 			switch (*format)
 			{
 			case 'c':
@@ -54,18 +52,13 @@ int _printf(const char *format, ...)
 				break;
 			}
 		}
-
 		format++; /* Move to the next character */
 	}
-
 	print_buffer(buffer, &buff_ind);
 	printed_chars += buff_ind;
-
 	va_end(args);
-
 	return (printed_chars);
 }
-
 void print_buffer(char buffer[], int *buff_ind)
 {
 	if (*buff_ind > 0)
