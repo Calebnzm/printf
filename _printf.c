@@ -4,17 +4,20 @@ void print_buffer(char buffer[], int *buff_ind);
 
 int _printf(const char *format, ...)
 {
-    if (format == NULL)
-        return -1;
-
-    va_list args;
-    va_start(args, format);
+	int i;
+	va_list args;
+	va_start(args, format);
+	va_list args;
+	va_start(args, format);
 
     char buffer[BUFF_SIZE];
     int buff_ind = 0;
     int printed_chars = 0;
 
-    for (int i = 0; format[i] != '\0'; i++)
+    if (format == NULL)
+	    return -1;
+
+    for (i = 0; format[i] != '\0'; i++)
     {
         if (format[i] != '%')
         {
