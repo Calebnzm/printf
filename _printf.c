@@ -1,72 +1,97 @@
 #include "main.h"
 
-int _printf(const char* format, ...)
-{
+void print_buffer(char buffer[], int *buff_ind);
 
-    int characters_printed = 0;
+/**
+ * _printf - Custom printf function
+ * @format: The format string
+ *
+ * Return: The number of characters printed
+ */
+int _printf(const char *format, ...)
+{
+    int i;
+    char buffer[BUFF_SIZE];
+    int buff_ind = 0;
+    int printed_chars = 0;
+    int len;
+    char *str;
+    int c;
+
     va_list args;
     va_start(args, format);
 
-    while (*format != '\0')
-    {
-        if (*format == '%')
-        {
-            format++;
 
-            switch (*format)
+	if (format == NULL)
+        return -1;
+    for (i = 0; format[i] != '\0'; i++)
+    {
+        if (format[i] != '%')
+        {
+            buffer[buff_ind++] = format[i];
+            if (buff_ind == BUFF_SIZE - 1)
             {
-                case 's':
-                {
-                    const char* string_to_print = va_arg(args, const char*);
-                    size_t length = strlen(string_to_print);
-                    ssize_t bytes_written = write(1, string_to_print, length);
-                    if (bytes_written > 0)
-                        characters_printed += bytes_written;
-                    break;
-                }
-                case 'd':
-                {
-                    int int_to_print = va_arg(args, int);
-                    char buffer[12];
-                    ssize_t bytes_written = snprintf(buffer, sizeof(buffer), "%d", int_to_print);
-                    if (bytes_written > 0)
-                    {
-                        bytes_written = write(1, buffer, bytes_written);
-                        if (bytes_written > 0)
-                            characters_printed += bytes_written;
-                    }
-                    break;
-                }
-                case 'f':
-                {
-                    double float_to_print = va_arg(args, double);
-                    char buffer[32];
-                    ssize_t bytes_written = snprintf(buffer, sizeof(buffer), "%f", float_to_print);
-                    if (bytes_written > 0)
-                    {
-                        bytes_written = write(1, buffer, bytes_written);
-                        if (bytes_written > 0)
-                            characters_printed += bytes_written;
-                    }
-                    break;
-                }
-                default:
-                {
-                    /* Ignore unrecognized specifiers */
-                    break;
-                }
+                buffer[buff_ind] = '\0';
+                write(1, buffer, buff_ind);
+                printed_chars += buff_ind;
+                buff_ind = 0;
             }
         }
         else
         {
-            ssize_t bytes_written = write(1, format, 1);
-            if (bytes_written > 0)
-                characters_printed += bytes_written;
-        }
+            buffer[buff_ind] = '\0';
+            write(1, buffer, buff_ind);
+            printed_chars += buff_ind;
+            buff_ind = 0;
 
-        format++;
+            i++;
+
+            /* Process format specifier */
+            switch (format[i])
+            {
+                case 'c':
+                    {
+                        c = va_arg(args, int);
+                        write(1, &c, 1);
+                        printed_chars++;
+                        break;
+                    }
+                case 's':
+                    {
+                        str = va_arg(args, char *);
+                        if (str == NULL)
+                            str = "(null)";
+                        len = strlen(str);
+                        write(1, str, len);
+                        printed_chars += len;
+                        break;
+                    }
+
+                default:
+                    write(1, &format[i], 1);
+                    printed_chars++;
+                    break;
+            }
+        }
     }
 
+    buffer[buff_ind] = '\0';
+    write(1, buffer, buff_ind);
+    printed_chars += buff_ind;
+
     va_end(args);
-    return characters_printed;
+
+    return printed_chars;
+}
+
+/**
+ * print_buffer - Writes the buffer to standard output
+ * @buffer: The buffer containing the characters to print
+ * @buff_ind: The current index in the buffer
+ */
+void print_buffer(char buffer[], int *buff_ind)
+{
+    buffer[*buff_ind] = '\0';
+    write(1, buffer, *buff_ind);
+    *buff_ind = 0;
 }
