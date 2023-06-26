@@ -1,11 +1,11 @@
 #include "main.h"
 
-
 int _printf(const char* format, ...)
 {
+
+    int characters_printed = 0;
     va_list args;
     va_start(args, format);
-    int characters_printed = 0;
 
     while (*format != '\0')
     {
@@ -52,7 +52,7 @@ int _printf(const char* format, ...)
                 }
                 default:
                 {
-                    // Ignore unrecognized specifiers
+                    /* Ignore unrecognized specifiers */
                     break;
                 }
             }
