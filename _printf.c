@@ -57,14 +57,14 @@ int _printf(const char *format, ...)
 						printed_chars += len;
 						break;
 					}
-				case 'd':
+				/*case 'd':
 		 		case 'i':
 				 	{
 				 		num = va_arg(args, int);
 						int_to_str(num, buffer, &buff_ind);
 						printed_chars += buff_ind;
 						break;
-				 	}
+				 	}*/
 				default:
 					write(1, &format[i], 1);
 					printed_chars++;
