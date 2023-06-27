@@ -11,6 +11,7 @@ int printf_int(va_list args)
 	int num = n; /* Store the absolute value of n */
 	int digit, exp = 1; /* Variables for digit extraction and place value */
 	int is_negative = 0; /* Flag to track if the number is negative */
+	char c;
 	int i; /* Counter for characters printed */
 
 	if (n < 0)
@@ -28,13 +29,14 @@ int printf_int(va_list args)
 
 	i = is_negative + 1; /* Increment i to account for negative sign */
 	if (is_negative)
-		_putchar('-'); /* Print '-' if the number is negative */
+		write(1, "-", 1); /* Print '-' if the number is negative */
 
 	num = n;
 	while (exp > 0)
 	{
 		digit = num / exp; /* Extract the leftmost digit */
-		_putchar(digit + '0'); /* Convert digit to character and print */
+		c = digit + '0';
+		write(1, &c, 1); /* Write the character to stdout */
 		num %= exp; /* Remove the leftmost digit from num */
 		exp /= 10; /* Decrement the place value */
 		i++; /* Increment character count */
