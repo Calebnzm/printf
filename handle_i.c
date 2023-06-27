@@ -12,6 +12,7 @@ int printf_int(va_list args)
 	int num = n; /* Store the absolute value of n */
 	int digit, exp = 1; /* Variables for digit extraction and place value */
 	int is_negative = 0; /* Flag to track if the number is negative */
+	char c;
 	int i; /* Counter for characters printed */
 
 	if (n < 0)
@@ -35,7 +36,7 @@ int printf_int(va_list args)
 	while (exp > 0)
 	{
 		digit = num / exp; /* Extract the leftmost digit */
-		char c = digit + '0';
+		c = digit + '0';
 		write(1, &c, 1); /* Write the character to stdout */
 		num %= exp; /* Remove the leftmost digit from num */
 		exp /= 10; /* Decrement the place value */
