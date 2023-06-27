@@ -9,7 +9,7 @@ int _printf(const char *format, ...)
 	/*char num_str[12];*/
 	int buff_ind = 0;
 	int printed_chars = 0;
-	int len, c, i, num;
+	int len, c, i/*, num*/;
 	char *str;
 	va_list args;
 
