@@ -9,7 +9,7 @@ int _printf(const char *format, ...)
 	/*char num_str[12];*/
 	int buff_ind = 0;
 	int printed_chars = 0;
-	int len, c, i/*, num*/;
+	int len, c, i, num;
 	char *str;
 	va_list args;
 
@@ -37,8 +37,7 @@ int _printf(const char *format, ...)
 			write(1, buffer, buff_ind);
 			printed_chars += buff_ind;
 			buff_ind = 0;
-			i++; /* Skip '%' */
-			/* Process format specifier */
+			i++;
 			switch (format[i])
 			{
 				case 'c':
@@ -58,15 +57,14 @@ int _printf(const char *format, ...)
 						printed_chars += len;
 						break;
 					}
-				/* case 'd':
-				 * case 'i':
-				 *	{
-				 *		num = va_arg(args, int);
-				 *		len = snprintf(num_str, sizeof(num_str), "%d", num);
-				 *		write(1, num_str, len);
-				 *		printed_chars += len;
-				 *		break;
-				 *	}*/
+				case 'd':
+		 		case 'i':
+				 	{
+				 		num = va_arg(args, int);
+						int_to_str(num, buffer, &buff_ind);
+						printed_chars += buff_ind;
+						break;
+				 	}
 				default:
 					write(1, &format[i], 1);
 					printed_chars++;
